@@ -1,0 +1,17 @@
+.DS_Store/
+node_modules/
+**/node_modules
+.idea/
+.vscode/
+
+dist/
+**/dist/
+build/
+**/build
+
+.env*
+!.env.example
+!**/.env.example
+
+# Some things to ignore
+yarn-*.log
