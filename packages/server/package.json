@@ -1,0 +1,21 @@
+{
+  "name": "@packages/server",
+  "version": "0.0.1",
+  "scripts": {
+    "prebuild": "if [ -d ./dist ]; then rm -rf ./dist; fi",
+    "build": "tsc",
+    "start": "yarn build && node dist/tsc/index.js"
+  },
+  "dependencies": {
+    "dotenv-safe": "^8.2.0",
+    "graphql": "^15.5.1",
+    "graphql-helix": "^1.6.1",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/dotenv-safe": "^8.1.1",
+    "@types/koa": "^2.13.3",
+    "@types/koa-bodyparser": "^4.3.1"
+  }
+}
