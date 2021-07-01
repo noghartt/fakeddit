@@ -8,7 +8,8 @@
     ]
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start:server": "yarn workspace @packages/server start"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
