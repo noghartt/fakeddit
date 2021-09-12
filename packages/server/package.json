@@ -7,15 +7,19 @@
     "start": "yarn build && node dist/tsc/index.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv-safe": "^8.2.0",
     "graphql": "^15.5.1",
     "graphql-helix": "^1.6.1",
     "koa": "^2.13.1",
-    "koa-bodyparser": "^4.3.0"
+    "koa-bodyparser": "^4.3.0",
+    "mongoose": "^6.0.5"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/dotenv-safe": "^8.1.1",
     "@types/koa": "^2.13.3",
-    "@types/koa-bodyparser": "^4.3.1"
+    "@types/koa-bodyparser": "^4.3.1",
+    "@types/mongoose": "^5.11.97"
   }
 }
