@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import * as yup from 'yup';
 
 // TODO There's a way to remove methods from this interface?
 interface User {
@@ -29,6 +30,9 @@ const UserSchema = new Schema<User>(
       type: String,
       required: true,
       unique: true,
+      validate: function (email: string) {
+        return yup.string().email().validate(email);
+      },
     },
     password: {
       type: String,
