@@ -49,6 +49,8 @@ UserSchema.pre('save', async function encryptPassword(next) {
   try {
     const hashedPassword = await this.hashPassword(this.password);
     this.password = hashedPassword;
+
+    return next();
   } catch (err: any) {
     // TODO Change the type of this `err` from catch
     throw new Error(err);
