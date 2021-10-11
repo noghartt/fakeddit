@@ -1,0 +1,20 @@
+.DS_Store
+.idea/
+.vscode/
+tmp/
+*.log
+
+**/node_modules/
+build/
+dist/
+npm-debug.log*
+
+yarn-*.log
+*.tsbuildinfo
+
+# Env files
+.env*
+!.env.example
+
+# Random things
+package-lock.json
