@@ -1,0 +1,16 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "[ -d ./dist ]; rm -rf ./dist",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "koa": "^2.13.3"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4"
+  }
+}
