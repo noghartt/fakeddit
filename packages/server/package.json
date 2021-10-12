@@ -5,12 +5,21 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "[ -d ./dist ]; rm -rf ./dist",
-    "build": "tsc"
+    "build": "tsc --build",
+    "start:prod": "node dist/tsc/index.js"
   },
   "dependencies": {
-    "koa": "^2.13.3"
+    "dotenv": "^10.0.0",
+    "graphql": "^15.6.1",
+    "koa": "^2.13.3",
+    "koa-bodyparser": "^4.3.0",
+    "koa-graphql": "^0.9.0",
+    "koa-router": "^10.1.1"
   },
   "devDependencies": {
-    "@types/koa": "^2.13.4"
+    "@types/koa": "^2.13.4",
+    "@types/koa-bodyparser": "^4.3.3",
+    "@types/koa-graphql": "^0.8.5",
+    "@types/koa-router": "^7.4.4"
   }
 }
