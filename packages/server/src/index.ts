@@ -1,22 +1,15 @@
-import Koa from 'koa';
+import { createServer } from 'http';
 
-const app = new Koa();
+import { config } from './environment';
+import app from './app';
 
-app.use(async (ctx, next) => {
-  await next();
-  const rt = ctx.response.get('X-Response-Time');
-  console.log(`${ctx.method} ${ctx.url} - ${rt}`);
-});
+const bootstrap = async () => {
+  const server = createServer(app.callback());
 
-app.use(async (ctx, next) => {
-  const start = Date.now();
-  await next();
-  const ms = Date.now() - start;
-  ctx.set('X-Response-Time', `${ms}ms`);
-});
+  server.listen(config.PORT, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Running at ${config.PORT} port...`);
+  });
+};
 
-app.use(async ctx => {
-  ctx.body = 'Hello World';
-});
-
-app.listen(3000, () => console.log('Running...'));
+bootstrap();
