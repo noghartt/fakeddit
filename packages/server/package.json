@@ -14,7 +14,8 @@
     "koa": "^2.13.3",
     "koa-bodyparser": "^4.3.0",
     "koa-graphql": "^0.9.0",
-    "koa-router": "^10.1.1"
+    "koa-router": "^10.1.1",
+    "mongoose": "^6.0.10"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
