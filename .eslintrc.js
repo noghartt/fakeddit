@@ -32,4 +32,10 @@ module.exports = {
     ],
     '@typescript-eslint/no-empty-function': 'error',
   },
+  settings: {
+    'import/resolver': {
+      node: true,
+      'eslint-import-resolver-typescript': true,
+    }
+  }
 };
