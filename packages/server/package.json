@@ -1,12 +1,12 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "prebuild": "[ -d ./dist ]; rm -rf ./dist",
-    "build": "tsc --build",
-    "start:prod": "node dist/tsc/index.js"
+    "build": "tsc",
+    "start:prod": "node dist/tsc/src/index.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
