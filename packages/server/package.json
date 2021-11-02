@@ -9,8 +9,10 @@
     "start:prod": "node dist/tsc/index.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "graphql": "^15.6.1",
+    "graphql-relay": "^0.9.0",
     "koa": "^2.13.3",
     "koa-bodyparser": "^4.3.0",
     "koa-graphql": "^0.9.0",
@@ -18,6 +20,7 @@
     "mongoose": "^6.0.10"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/koa": "^2.13.4",
     "@types/koa-bodyparser": "^4.3.3",
     "@types/koa-graphql": "^0.8.5",
