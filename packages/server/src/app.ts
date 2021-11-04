@@ -12,6 +12,7 @@ const router = new Router();
 const graphQlSettingsPerReq = async (): Promise<GraphQLHTTP.OptionsData> => ({
   graphiql: config.NODE_ENV !== 'production',
   schema,
+  pretty: true,
   formatError: ({ message, locations, stack }) => {
     /* eslint-disable no-console */
     console.log(message);
