@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "@fakeddit/server",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
@@ -9,6 +9,7 @@
     "start:prod": "node dist/tsc/src/index.js"
   },
   "dependencies": {
+    "@fakeddit/babel": "^0.0.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "graphql": "^15.6.1",
