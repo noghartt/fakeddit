@@ -6,7 +6,9 @@
   "scripts": {
     "prebuild": "[ -d ./dist ]; rm -rf ./dist",
     "build": "tsc",
-    "start:prod": "node dist/tsc/src/index.js"
+    "start:prod": "node dist/tsc/src/index.js",
+    "preschema:generate": "[-d ./graphql ]; rm -rf ./graphql",
+    "schema:generate": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts\" ./scripts/generateSchema.ts"
   },
   "dependencies": {
     "@fakeddit/babel": "^0.0.1",
