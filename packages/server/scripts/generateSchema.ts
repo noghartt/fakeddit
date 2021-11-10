@@ -13,6 +13,7 @@ const generateSchema = async () => {
   for (const config of configs) {
     const dirPath = config.path.split('/schema.gql')[0];
 
+    // TODO: Should I put it on a try/catch?
     if (!fsSync.existsSync(dirPath)) {
       await fs.mkdir(dirPath);
     }
