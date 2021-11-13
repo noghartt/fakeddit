@@ -7,6 +7,7 @@
     "prebuild": "[ -d ./dist ]; rm -rf ./dist",
     "build": "tsc",
     "start:prod": "node dist/tsc/src/index.js",
+    "start:dev": "webpack --watch --progress --config webpack.config.js",
     "preschema:generate": "[ -d ./graphql ]; rm -rf ./graphql",
     "schema:generate": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts\" ./scripts/generateSchema.ts",
     "copy:env": "cp .env.example .env"
