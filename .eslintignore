@@ -1,0 +1,5 @@
+node_modules/
+**/webpack/
+**/test/
+
+**/webpack.config.js
