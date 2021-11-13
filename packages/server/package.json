@@ -7,8 +7,9 @@
     "prebuild": "[ -d ./dist ]; rm -rf ./dist",
     "build": "tsc",
     "start:prod": "node dist/tsc/src/index.js",
-    "preschema:generate": "[-d ./graphql ]; rm -rf ./graphql",
-    "schema:generate": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts\" ./scripts/generateSchema.ts"
+    "preschema:generate": "[ -d ./graphql ]; rm -rf ./graphql",
+    "schema:generate": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts\" ./scripts/generateSchema.ts",
+    "copy:env": "cp .env.example .env"
   },
   "dependencies": {
     "@fakeddit/babel": "^0.0.1",
