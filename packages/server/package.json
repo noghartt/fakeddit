@@ -12,7 +12,6 @@
     "copy:env": "cp .env.example .env"
   },
   "dependencies": {
-    "@fakeddit/babel": "^0.0.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "graphql": "^15.6.1",
@@ -24,6 +23,7 @@
     "mongoose": "^6.0.10"
   },
   "devDependencies": {
+    "@fakeddit/babel": "^0.0.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/koa": "^2.13.4",
     "@types/koa-bodyparser": "^4.3.3",
