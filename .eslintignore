@@ -1,5 +1,7 @@
 node_modules/
 **/webpack/
 **/test/
+**/build/
+**/dist/
 
 **/webpack.config.js
