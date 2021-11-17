@@ -7,17 +7,26 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
     ecmaVersion: 10,
     sourceType: 'module',
     ecmaFeatures: {
       module: true,
+      jsx: true,
     },
   },
-  plugins: ['@typescript-eslint', 'import', 'prettier'],
+  plugins: [
+    '@typescript-eslint',
+    'import',
+    'prettier',
+    'react',
+    'react-hooks',
+    'relay',
+  ],
   extends: [
     'prettier',
     'eslint:recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:relay/recommended',
     'plugin:import/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
@@ -25,18 +34,35 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'no-console': 'error',
+    'comma-dangle': ['error', 'always-multiline'],
     'import/first': 'error',
+    'import/no-duplicates': 'error',
     '@typescript-eslint/no-var-requires': 'error',
     '@typescript-eslint/no-unused-vars': [
       'error',
       { ignoreRestSiblings: true },
     ],
     '@typescript-eslint/no-empty-function': 'error',
+    'react/prop-types': 'off',
+    'react/display-name': 'off',
+    'react/no-deprecated': 'warn',
+    'react/self-closing-comp': 'error',
+    'react/jsx-child-element-spacing': 'error',
+    'react/jsx-closing-tag-location': 'error',
+    'react/jsx-boolean-value': ['error', 'always'],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'error',
+    'relay/graphql-syntax': 'error',
+    'relay/compat-uses-vars': 'warn',
+    'relay/graphql-naming': 'error',
+    'relay/generated-flow-types': 'warn',
+    'relay/no-future-added-value': 'warn',
+    'relay/unused-fields': 'off',
   },
   settings: {
     'import/resolver': {
       node: true,
       'eslint-import-resolver-typescript': true,
-    }
-  }
+    },
+  },
 };

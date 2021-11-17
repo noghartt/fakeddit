@@ -6183,7 +6183,7 @@ eslint-plugin-flowtype@^5.2.0:
     lodash "^4.17.15"
     string-natural-compare "^3.0.1"
 
-eslint-plugin-import@^2.22.1, eslint-plugin-import@^2.24.2:
+eslint-plugin-import@^2.22.1, eslint-plugin-import@^2.25.3:
   version "2.25.3"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.25.3.tgz#a554b5f66e08fb4f6dc99221866e57cfff824766"
   integrity sha512-RzAVbby+72IB3iOEL8clzPLzL3wpDrlwjsTBAQXgyp5SeTqqY+0bFubwuo+y/HLhNZcXV4XqTBO4LGsfyHIDXg==
@@ -6209,7 +6209,7 @@ eslint-plugin-jest@^24.1.0:
   dependencies:
     "@typescript-eslint/experimental-utils" "^4.0.1"
 
-eslint-plugin-jsx-a11y@^6.3.1:
+eslint-plugin-jsx-a11y@^6.3.1, eslint-plugin-jsx-a11y@^6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.5.1.tgz#cdbf2df901040ca140b6ec14715c988889c2a6d8"
   integrity sha512-sVCFKX9fllURnXT2JwLN5Qgo24Ug5NF6dxhkmxsMEUZhXRcGg+X3e1JbJ84YePQKBl5E0ZjAH5Q4rkdcGY99+g==
@@ -6275,6 +6275,13 @@ eslint-plugin-react@^7.21.5, eslint-plugin-react@^7.26.1:
     resolve "^2.0.0-next.3"
     semver "^6.3.0"
     string.prototype.matchall "^4.0.6"
+
+eslint-plugin-relay@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-relay/-/eslint-plugin-relay-1.8.3.tgz#3f320b79259c14c8112909568b208a08e7a9ebae"
+  integrity sha512-awyrwntUTZ7Z+lJUnniTCnJdZYr1dY2djQDARMx1P1y2BFMsBjtTljBK0lBEM7yiTHPBwVnE2OSnXxcD4yMb0A==
+  dependencies:
+    graphql "^14.0.0 || ^15.0.0"
 
 eslint-plugin-testing-library@^3.9.2:
   version "3.10.2"
@@ -7197,7 +7204,7 @@ graphql-relay@^0.9.0:
   resolved "https://registry.yarnpkg.com/graphql-relay/-/graphql-relay-0.9.0.tgz#d96f19d38b742a390acf10056ddd136034b3e1b4"
   integrity sha512-yNJLCqcjz0XpzpmmckRJCSK8a2ZLwTurwrQ09UyGftONh52PbrGpK1UO4yspvj0c7pC+jkN4ZUqVXG3LRrWkXQ==
 
-graphql@^15.1.0, graphql@^15.6.1:
+"graphql@^14.0.0 || ^15.0.0", graphql@^15.1.0, graphql@^15.6.1:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.7.2.tgz#85ab0eeb83722977151b3feb4d631b5f2ab287ef"
   integrity sha512-AnnKk7hFQFmU/2I9YSQf3xw44ctnSFCfp3zE0N6W174gqe9fWG/2rKaKxROK7CcI3XtERpjEKFqts8o319Kf7A==
