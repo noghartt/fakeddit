@@ -1,0 +1,11 @@
+{
+  "name": "@fakeddit/ui",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@chakra-ui/react": "^1.7.2",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "framer-motion": "^4"
+  }
+}
