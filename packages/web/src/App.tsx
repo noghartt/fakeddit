@@ -1,9 +1,8 @@
-import { ChakraProvider } from '@chakra-ui/react';
-
-import { theme } from '@fakeddit/ui';
+import { Providers } from './Providers';
+import { Routes } from './Routes';
 
 export const App = () => (
-  <ChakraProvider theme={theme}>
-    <h1>Hello, world</h1>
-  </ChakraProvider>
+  <Providers>
+    <Routes />
+  </Providers>
 );
