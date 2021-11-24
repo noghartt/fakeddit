@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "lib": ["DOM", "ESNext"],
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules"]
+}
