@@ -1,18 +1,24 @@
+import { Link } from 'react-router-dom';
 import {
+  chakra,
   Flex,
   Box,
   Heading,
   Text,
-  Link,
+  FormControl,
+  FormErrorMessage,
   Input,
-  Button,
 } from '@chakra-ui/react';
 
-import { VStack } from '@fakeddit/ui';
+import { VStack, Button } from '@fakeddit/ui';
+
+// TODO: I think that I should move it to another file because it'll be reused
+// a lot of times
+const ChakraLink = chakra(Link);
 
 export const Login = () => (
   <Flex height="100vh">
-    <Box flexGrow="1" bgColor="orange.600" />
+    <Box flexGrow="1" bgColor="orange.400" />
     <Flex flex="9" flexDirection="column" justifyContent="center">
       <VStack ml="30px" maxW="360px" spacing="64px">
         <VStack maxW="320px" spacing="12px" width="100%">
@@ -26,15 +32,27 @@ export const Login = () => (
         </VStack>
         <Box width="100%">
           <VStack as="form" alignSelf="center" spacing="12px">
-            <Input placeholder="Username" />
-            <Input placeholder="Password" type="password" />
-            <Button w="100%">Log in</Button>
+            <FormControl id="username">
+              <Input placeholder="Username" />
+              <FormErrorMessage>Teste</FormErrorMessage>
+            </FormControl>
+            <FormControl id="password">
+              <Input placeholder="Password" type="password" />
+              <FormErrorMessage>Teste</FormErrorMessage>
+            </FormControl>
+            <Button width="100%" type="submit">
+              Log in
+            </Button>
           </VStack>
           <Text mt="12px">
             New to Fakeddit?{' '}
-            <Link textTransform="uppercase" fontWeight="bold">
+            <ChakraLink
+              to="/signup"
+              textTransform="uppercase"
+              fontWeight="bold"
+            >
               Sign up
-            </Link>
+            </ChakraLink>
           </Text>
         </Box>
       </VStack>
