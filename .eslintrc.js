@@ -51,7 +51,7 @@ module.exports = {
     'react/self-closing-comp': 'error',
     'react/jsx-child-element-spacing': 'error',
     'react/jsx-closing-tag-location': 'error',
-    'react/jsx-boolean-value': ['error', 'always'],
+    'react/jsx-boolean-value': ['error', 'never'],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
     'relay/graphql-syntax': 'error',
@@ -63,8 +63,9 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      node: true,
-      'eslint-import-resolver-typescript': true,
+      typescript: {
+        directory: ['packages/*/tsconfig.json'],
+      },
     },
   },
 };
