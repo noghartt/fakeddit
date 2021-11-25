@@ -3,10 +3,10 @@
 // think that, in the future, this will be changed.
 import { Routes as Router, Route } from 'react-router-dom';
 
-import { Login } from './pages/Login';
+import { LoginRoutes } from './modules/users/LoginRoutes';
 
 export const Routes = () => (
   <Router>
-    <Route path="/" element={<Login />} />
+    <Route path="/*" element={<LoginRoutes />} />
   </Router>
 );
