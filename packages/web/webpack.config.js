@@ -7,8 +7,6 @@ const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const cwd = process.cwd();
 
-console.log(process.env);
-
 // TODO: It should be turn `webpack.config.dev.js` in the future
 module.exports = {
   mode: 'development',
@@ -20,6 +18,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
   },
   module: {
     rules: [
@@ -35,6 +36,7 @@ module.exports = {
     hot: true,
     open: true,
     compress: true,
+    historyApiFallback: true,
   },
   plugins: [
     new dotEnv({

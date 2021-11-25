@@ -6,6 +6,10 @@
     "moduleResolution": "node",
     "module": "ESNext",
     "lib": ["DOM", "ESNext"],
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["./src"],
   "exclude": ["node_modules"]
