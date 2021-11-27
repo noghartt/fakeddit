@@ -1,9 +1,10 @@
-require('dotenv').config();
-
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const dotEnv = require('dotenv-webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const dotenv = require('dotenv').config({
+  path: path.resolve(__dirname, '.env'),
+});
 
 const cwd = process.cwd();
 
@@ -34,14 +35,19 @@ module.exports = {
   devServer: {
     port: process.env.PORT,
     hot: true,
-    open: true,
     compress: true,
     historyApiFallback: true,
   },
   plugins: [
-    new dotEnv({
-      path: './.env',
-      safe: true,
+    // new Dotenv({
+    //   path: './.env',
+    //   safe: true,
+    //   ignoreStub: true,
+    // }),
+    // TODO: It's working but should I do it or should I use dotenv-webpack package?
+    // See this issue for more details: https://github.com/mrsteele/dotenv-webpack/issues/271
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(dotenv.parsed),
     }),
     new ReactRefreshPlugin(),
     new HtmlWebpackPlugin({
