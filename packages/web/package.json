@@ -2,7 +2,8 @@
   "name": "@fakeddit/web",
   "version": "0.0.1",
   "scripts": {
-    "start:dev": "webpack serve --hot"
+    "start:dev": "webpack serve --hot",
+    "relay": "relay-compiler"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.2",
@@ -11,19 +12,28 @@
     "framer-motion": "^4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-router-dom": "^6.0.2"
+    "react-relay": "^12.0.0",
+    "react-router-dom": "^6.0.2",
+    "relay-runtime": "^12.0.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.2",
     "@types/react": "^17.0.36",
     "@types/react-dom": "^17.0.11",
+    "@types/react-relay": "^11.0.2",
+    "@types/relay-runtime": "^12.0.0",
     "babel-loader": "^8.2.3",
+    "babel-plugin-relay": "^12.0.0",
     "dotenv": "^10.0.0",
     "dotenv-webpack": "^7.0.3",
+    "graphql": "^15.0.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
     "react-refresh": "^0.11.0",
+    "relay-compiler": "^12.0.0",
+    "relay-compiler-language-typescript": "^15.0.0",
+    "relay-config": "^12.0.0",
     "webpack": "^5.64.2",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.5.0",
