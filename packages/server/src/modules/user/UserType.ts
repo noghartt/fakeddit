@@ -12,16 +12,12 @@ export const UserType = new GraphQLObjectType<User>({
       resolve: user => user.username,
     },
     displayName: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
       resolve: user => user.displayName,
     },
     email: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: user => user.email,
-    },
-    password: {
-      type: new GraphQLNonNull(GraphQLString),
-      resolve: user => user.password,
     },
   }),
 });
