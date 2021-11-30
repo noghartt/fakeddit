@@ -13,10 +13,12 @@
     "copy:env": "cp .env.example .env"
   },
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "graphql": "^15.6.1",
     "graphql-relay": "^0.9.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.3",
     "koa-bodyparser": "^4.3.0",
     "koa-graphql": "^0.9.0",
@@ -26,10 +28,12 @@
   "devDependencies": {
     "@fakeddit/babel": "^0.0.1",
     "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^8.5.6",
     "@types/koa": "^2.13.4",
     "@types/koa-bodyparser": "^4.3.3",
     "@types/koa-graphql": "^0.8.5",
     "@types/koa-router": "^7.4.4",
+    "@types/koa__cors": "^3.0.3",
     "babel-loader": "^8.2.3",
     "mongodb-memory-server-global": "^8.0.0",
     "webpack": "^5.64.0",

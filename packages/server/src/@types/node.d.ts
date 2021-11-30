@@ -4,6 +4,7 @@ declare global {
       NODE_ENV: 'development' | 'production';
       PORT: string;
       MONGO_URI: string;
+      JWT_SECRET: string;
     }
   }
 }

@@ -2,6 +2,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import bodyparser from 'koa-bodyparser';
 import GraphQLHTTP from 'koa-graphql';
+import cors from '@koa/cors';
 
 import { schema } from './schema';
 import { config } from './environment';
@@ -32,6 +33,7 @@ const graphQlServer = GraphQLHTTP(graphQlSettingsPerReq);
 
 router.all('/graphql', graphQlServer);
 
+app.use(cors());
 app.use(bodyparser());
 app.use(router.routes()).use(router.allowedMethods());
 
