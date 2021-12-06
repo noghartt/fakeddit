@@ -5,6 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from '@fakeddit/ui';
 
 import { RelayEnvironment } from './relay/RelayEnvironment';
+import { AuthProvider } from './modules/auth/AuthContext';
 
 interface Props {
   children: React.ReactElement;
@@ -13,7 +14,9 @@ interface Props {
 export const Providers = ({ children }: Props) => (
   <RelayEnvironmentProvider environment={RelayEnvironment}>
     <BrowserRouter>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      <AuthProvider>
+        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      </AuthProvider>
     </BrowserRouter>
   </RelayEnvironmentProvider>
 );

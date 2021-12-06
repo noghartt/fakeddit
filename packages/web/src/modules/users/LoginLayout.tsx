@@ -1,7 +1,9 @@
-import { useLocation, Outlet } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 import { Link } from '@/shared-components/Link';
+
+import { useAuth } from '../auth/useAuth';
 
 const SignupOrLoginLink = ({ pathname }: { pathname: string }) => {
   const isSignupScreen = pathname === '/signup';
@@ -21,6 +23,11 @@ const SignupOrLoginLink = ({ pathname }: { pathname: string }) => {
 
 export const LoginLayout = () => {
   const { pathname } = useLocation();
+  const { token } = useAuth();
+
+  if (token) {
+    return <Navigate to="/feed" replace />;
+  }
 
   return (
     <Flex height="100vh">
