@@ -15,12 +15,12 @@ it('should create a new user', async () => {
   const mutation = `
       mutation M($username: String!, $displayName: String!, $email: String!, $password: String!) {
         userRegisterMutation(input: {username: $username, displayName: $displayName, email: $email, password: $password}) {
-          user {
+          token
+          me {
             id
             username
             displayName
             email
-            password
           }
         }
       }
@@ -39,7 +39,8 @@ it('should create a new user', async () => {
 
   expect(result.errors).toBeUndefined();
 
-  const { user } = result?.data?.userRegisterMutation;
+  const { me, token } = result?.data?.userRegisterMutation;
 
-  expect(user.id).toBeDefined();
+  expect(token).toBeDefined();
+  expect(me.id).toBeDefined();
 });
