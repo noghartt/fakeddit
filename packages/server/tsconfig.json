@@ -11,6 +11,6 @@
     "outDir": "./dist/tsc",
     "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
   },
-  "include": ["src/**/*", "./package.json"],
+  "include": ["src/**/*", "./package.json", "./test/counters.ts"],
   "exclude": ["node_modules", "dist", "src/**/*.test.ts", "src/**/__tests__/**/*", "test/**/*"]
 }
