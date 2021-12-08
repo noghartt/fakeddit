@@ -7,37 +7,15 @@ import {
 } from '../../../../test';
 import { schema } from '../../../schema';
 
+import { createUser } from '../fixtures/createUser';
+
 beforeAll(connectWithMongoose);
 beforeEach(clearDatabaseAndRestartCounters);
 afterAll(disconnectWithMongoose);
 
 const ROOT_VALUE = {};
 
-beforeEach(async () => {
-  const mutation = `
-      mutation M($username: String!, $displayName: String!, $email: String!, $password: String!) {
-        userRegisterMutation(input: {username: $username, displayName: $displayName, email: $email, password: $password}) {
-          me {
-            id
-            username
-            displayName
-            email
-          }
-        }
-      }
-    `;
-
-  const variables = {
-    username: 'noghartt',
-    displayName: 'Noghartt',
-    email: 'john@doe.com',
-    password: '123abcAd9=D',
-  };
-
-  await graphql(schema, mutation, ROOT_VALUE, {}, variables);
-});
-
-const mutation = `
+const LOGIN_MUTATION = `
 mutation UserLoginMutation($username: String!, $password: String!) {
   userLoginMutation(input: {username: $username, password: $password}) {
     token
@@ -52,12 +30,23 @@ mutation UserLoginMutation($username: String!, $password: String!) {
 `;
 
 it('should login with a registered user', async () => {
-  const variables = {
+  const { username } = await createUser({
     username: 'noghartt',
+    password: '123abcAd9=D',
+  });
+
+  const variables = {
+    username,
     password: '123abcAd9=D',
   };
 
-  const result = await graphql(schema, mutation, ROOT_VALUE, {}, variables);
+  const result = await graphql(
+    schema,
+    LOGIN_MUTATION,
+    ROOT_VALUE,
+    {},
+    variables,
+  );
 
   expect(result.errors).toBeUndefined();
 
@@ -68,12 +57,20 @@ it('should login with a registered user', async () => {
 });
 
 it("should display error if username isn't exists", async () => {
+  await createUser();
+
   const variables = {
-    username: 'nogharttt',
+    username: 'noghartt',
     password: '123abcAd9=D',
   };
 
-  const result = await graphql(schema, mutation, ROOT_VALUE, {}, variables);
+  const result = await graphql(
+    schema,
+    LOGIN_MUTATION,
+    ROOT_VALUE,
+    {},
+    variables,
+  );
 
   expect(result.data?.userLoginMutation).toBeNull();
 
@@ -84,12 +81,20 @@ it("should display error if username isn't exists", async () => {
 });
 
 it('should display error if password is incorrect', async () => {
+  await createUser({ username: 'noghartt' });
+
   const variables = {
     username: 'noghartt',
     password: '123abcAd9=',
   };
 
-  const result = await graphql(schema, mutation, ROOT_VALUE, {}, variables);
+  const result = await graphql(
+    schema,
+    LOGIN_MUTATION,
+    ROOT_VALUE,
+    {},
+    variables,
+  );
 
   expect(result.data?.userLoginMutation).toBeNull();
 
