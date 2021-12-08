@@ -78,12 +78,7 @@ export const SignupPage = () => {
               placeholder="Password"
               shouldValidate
             />
-            <Button
-              width="100%"
-              textTransform="uppercase"
-              type="submit"
-              disabled={!isValid}
-            >
+            <Button width="100%" type="submit" disabled={!isValid}>
               {isSubmitting ? <Spinner /> : 'Sign up'}
             </Button>
           </VStack>
