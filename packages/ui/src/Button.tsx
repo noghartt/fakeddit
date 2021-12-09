@@ -3,6 +3,7 @@ import { Button as ChakraButton, ButtonProps } from '@chakra-ui/react';
 export const buttonTheme = {
   baseStyle: {
     outline: 'none',
+    width: '100%',
   },
   variants: {
     solid: {

@@ -16,7 +16,10 @@ const SignupOrLoginLink = ({ pathname }: { pathname: string }) => {
 
   return (
     <Text mt="12px">
-      {text} <Link to={link.to}>{link.text}</Link>
+      {text}{' '}
+      <Link to={link.to} textTransform="uppercase">
+        {link.text}
+      </Link>
     </Text>
   );
 };
