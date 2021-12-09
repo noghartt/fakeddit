@@ -1,0 +1,51 @@
+name: Testing
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node v14
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
+      - name: Use cached node_modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: nodeModules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            nodeModules-
+
+      - name: Installing dependencies...
+        run: yarn install --frozen-lockfile
+        env:
+          CI: true
+
+      - name: Generating the GraphQL Schema...
+        run: yarn workspace @fakeddit/server schema:generate
+
+      - name: Generating the Relay types...
+        run: yarn workspace @fakeddit/web relay
+
+      - name: Running ESLint...
+        run: yarn eslint --fix .
+        env:
+          CI: true
+
+      - name: Running Prettier...
+        run: yarn prettier --write **/src/**/*
+        env:
+          CI: true
+
+      - name:
+        run: yarn jest
+        env:
+          CI: true
