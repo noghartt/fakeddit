@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const {
-  default: { createTransformer },
-} = require('babel-jest');
+const { createTransformer } = require('babel-jest').default;
 
 const config = require('@fakeddit/babel');
 
