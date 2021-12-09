@@ -51,11 +51,12 @@ export const SignupPage = () => {
 
           if (error && error.length > 0) {
             setError({ status: true, message: error[0].message });
-          } else {
-            signin(userRegisterMutation?.token, () => {
-              navigate('/feed', { replace: true });
-            });
+            return;
           }
+
+          signin(userRegisterMutation?.token, () => {
+            navigate('/feed', { replace: true });
+          });
         },
       });
     },

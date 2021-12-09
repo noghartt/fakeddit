@@ -46,11 +46,12 @@ export const LoginPage = () => {
 
           if (error && error.length > 0) {
             setError({ status: true, message: error[0].message });
-          } else {
-            signin(userLoginMutation?.token, () => {
-              navigate('/feed', { replace: true });
-            });
+            return;
           }
+
+          signin(userLoginMutation?.token, () => {
+            navigate('/feed', { replace: true });
+          });
         },
       });
     },
