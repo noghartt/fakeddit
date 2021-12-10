@@ -23,7 +23,8 @@ export const SignupPage = () => {
     message: '',
   });
 
-  const [handleUserRegister] = useMutation<UserRegisterMutation>(UserRegister);
+  const [userRegister, isPending] =
+    useMutation<UserRegisterMutation>(UserRegister);
 
   const formikValue = useFormik({
     initialValues: {
@@ -31,7 +32,7 @@ export const SignupPage = () => {
       email: '',
       password: '',
     },
-    isInitialValid: false,
+    validateOnMount: true,
     validationSchema: Yup.object().shape({
       email: Yup.string().email('Invalid email').required('Email is required'),
       username: Yup.string()
@@ -44,12 +45,23 @@ export const SignupPage = () => {
         .required('Password is required'),
     }),
     onSubmit: (values, actions) => {
-      handleUserRegister({
+      userRegister({
         variables: values,
         onCompleted: ({ userRegisterMutation }, error) => {
-          actions.resetForm();
-
           if (error && error.length > 0) {
+            const inputs: Array<keyof typeof values> = [
+              'email',
+              'password',
+              'username',
+            ];
+
+            inputs.forEach(input => {
+              actions.setFieldValue(input, '', false);
+              actions.setFieldTouched(input, false);
+            });
+
+            actions.setSubmitting(false);
+
             setError({ status: true, message: error[0].message });
             return;
           }
@@ -81,7 +93,7 @@ export const SignupPage = () => {
             placeholder="Password"
             shouldValidate
           />
-          <Button width="100%" type="submit" disabled={!isValid}>
+          <Button type="submit" disabled={!isValid || isPending}>
             {isSubmitting ? <Spinner /> : 'Sign up'}
           </Button>
         </VStack>
