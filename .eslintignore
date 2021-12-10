@@ -5,3 +5,4 @@ node_modules/
 **/dist/
 
 **/webpack.config*.js
+**/jest.*.js
