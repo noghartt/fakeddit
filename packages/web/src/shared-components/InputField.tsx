@@ -30,7 +30,11 @@ export const InputField = ({
       {shouldValidate && (
         <ErrorMessage name={name}>
           {error => (
-            <FormErrorMessage fontSize="xs" mt="0">
+            <FormErrorMessage
+              data-testid={`error-message-${name}`}
+              fontSize="xs"
+              mt="0"
+            >
               {error}
             </FormErrorMessage>
           )}
