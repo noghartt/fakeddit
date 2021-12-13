@@ -125,7 +125,7 @@ it("should maintain disabled the button if username isn't correct", async () => 
   );
 });
 
-it("should maintain disabled the button if username isn't correct", async () => {
+it("should maintain disabled the button if password isn't correct", async () => {
   render(
     <MemoryRouter initialEntries={['/signup']}>
       <WithProviders>
