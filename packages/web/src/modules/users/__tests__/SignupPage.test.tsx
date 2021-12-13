@@ -1,9 +1,11 @@
 import userEvent from '@testing-library/user-event';
+import { createMemoryHistory } from 'history';
 import { MemoryRouter } from 'react-router-dom';
 import { render, cleanup, screen, waitFor } from '@testing-library/react';
 import { createMockEnvironment, MockPayloadGenerator } from 'relay-test-utils';
 
 import { WithProviders } from '@/../test/WithProviders';
+import { TestRouter } from '@/../test/TestRouter';
 
 import { Routes } from '@/Routes';
 
@@ -11,13 +13,16 @@ afterEach(cleanup);
 
 it('should navigate to /feed after signup correctly the user', async () => {
   const environment = createMockEnvironment();
+  const history = createMemoryHistory({
+    initialEntries: ['/signup'],
+  });
 
   render(
-    <MemoryRouter initialEntries={['/signup']}>
+    <TestRouter history={history}>
       <WithProviders relayEnvironment={environment}>
         <Routes />
       </WithProviders>
-    </MemoryRouter>,
+    </TestRouter>,
   );
 
   const variables = {
@@ -36,6 +41,8 @@ it('should navigate to /feed after signup correctly the user', async () => {
 
   userEvent.click(screen.getByRole('button'));
 
+  expect(history.location.pathname).toBe('/signup');
+
   await waitFor(() => {
     const operation = environment.mock.getMostRecentOperation();
 
@@ -47,10 +54,7 @@ it('should navigate to /feed after signup correctly the user', async () => {
     );
   });
 
-  // TODO: I think that it could be improved testing the path on the history but
-  // I don't know how to do it correctly yet. So I think that it could be revisited
-  // in the futre to improve this test.
-  expect(screen.getByText("You're logged in!")).toBeInTheDocument();
+  expect(history.location.pathname).toBe('/feed');
 });
 
 it("should maintain disable the button if the email isn't correct", async () => {
