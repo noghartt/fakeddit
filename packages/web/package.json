@@ -34,6 +34,7 @@
     "dotenv": "^10.0.0",
     "dotenv-webpack": "^7.0.3",
     "graphql": "^15.0.0",
+    "history": "^5.1.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
     "react-refresh": "^0.11.0",
