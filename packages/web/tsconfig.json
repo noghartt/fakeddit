@@ -8,9 +8,10 @@
     "lib": ["DOM", "ESNext"],
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/tests/*": ["./../test"]
     }
   },
   "include": ["./src"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./src/**/*.test.tsx", "./test"]
 }
