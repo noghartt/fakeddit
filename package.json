@@ -8,7 +8,11 @@
       "packages/*"
     ]
   },
-  "scripts": {},
+  "scripts": {
+    "test": "jest --maxWorkers=50%",
+    "test:watch": "jest --watch --maxWorkers=25%",
+    "test:ci": "jest --runInBand"
+  },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",

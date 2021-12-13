@@ -27,7 +27,7 @@ export const LoginPage = () => {
 
   const formikValue = useFormik({
     initialValues: { username: '', password: '' },
-    isInitialValid: false,
+    validateOnMount: true,
     validationSchema: Yup.object().shape({
       username: Yup.string()
         .min(3, 'The username needs at least 3 characters')
@@ -42,9 +42,16 @@ export const LoginPage = () => {
       handleUserLogin({
         variables: values,
         onCompleted: ({ userLoginMutation }, error) => {
-          actions.resetForm();
-
           if (error && error.length > 0) {
+            const inputs: Array<keyof typeof values> = ['password', 'username'];
+
+            inputs.forEach(input => {
+              actions.setFieldValue(input, '', false);
+              actions.setFieldTouched(input, false);
+            });
+
+            actions.setSubmitting(false);
+
             setError({ status: true, message: error[0].message });
             return;
           }
