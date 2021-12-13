@@ -45,7 +45,7 @@ jobs:
         env:
           CI: true
 
-      - name:
-        run: yarn jest
+      - name: Running tests...
+        run: yarn test:ci
         env:
           CI: true
