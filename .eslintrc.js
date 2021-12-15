@@ -62,9 +62,12 @@ module.exports = {
     'relay/unused-fields': 'off',
   },
   settings: {
+    react: {
+      version: 'detect',
+    },
     'import/resolver': {
       typescript: {
-        directory: ['packages/*/tsconfig.json'],
+        project: ['packages/*/tsconfig.json'],
       },
     },
   },
