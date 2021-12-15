@@ -12,12 +12,6 @@ export const communityCreate = mutationWithClientMutationId({
     communityId: { type: new GraphQLNonNull(GraphQLString) },
     displayName: { type: new GraphQLNonNull(GraphQLString) },
   },
-  outputFields: () => ({
-    community: {
-      type: CommunityType,
-      resolve: ({ community }) => community,
-    },
-  }),
   mutateAndGetPayload: async (
     { communityId, ...rest },
     ctx: GraphQLContext,
@@ -50,4 +44,10 @@ export const communityCreate = mutationWithClientMutationId({
       community,
     };
   },
+  outputFields: () => ({
+    community: {
+      type: CommunityType,
+      resolve: ({ community }) => community,
+    },
+  }),
 });

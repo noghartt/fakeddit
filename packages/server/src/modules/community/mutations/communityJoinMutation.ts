@@ -14,17 +14,6 @@ export const communityJoin = mutationWithClientMutationId({
   inputFields: {
     communityId: { type: new GraphQLNonNull(GraphQLString) },
   },
-  outputFields: () => ({
-    community: {
-      type: CommunityType,
-      resolve: async ({ communityId }) =>
-        await CommunityModel.findOne({ _id: communityId }),
-    },
-    me: {
-      type: UserType,
-      resolve: async ({ userId }) => await UserModel.findOne({ _id: userId }),
-    },
-  }),
   mutateAndGetPayload: async ({ communityId }, ctx: GraphQLContext) => {
     // TODO: In some way, you can pass it to a middleware. But IDK how to do it yet.
     if (!ctx.user) {
@@ -58,4 +47,15 @@ export const communityJoin = mutationWithClientMutationId({
       communityId: community._id,
     };
   },
+  outputFields: () => ({
+    community: {
+      type: CommunityType,
+      resolve: async ({ communityId }) =>
+        await CommunityModel.findOne({ _id: communityId }),
+    },
+    me: {
+      type: UserType,
+      resolve: async ({ userId }) => await UserModel.findOne({ _id: userId }),
+    },
+  }),
 });
