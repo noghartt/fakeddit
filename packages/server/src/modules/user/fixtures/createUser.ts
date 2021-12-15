@@ -2,9 +2,11 @@ import { DeepPartial } from '@fakeddit/types';
 
 import { getCounter } from '../../../../test/counters';
 
-import { UserModel, User } from '../UserModel';
+import { UserModel, User, UserDocument } from '../UserModel';
 
-export const createUser = async (args?: DeepPartial<User>) => {
+export const createUser = async (
+  args?: DeepPartial<User>,
+): Promise<UserDocument> => {
   const i = getCounter('user');
 
   return new UserModel({
