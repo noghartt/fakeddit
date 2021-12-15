@@ -41,8 +41,7 @@ export const communityCreate = mutationWithClientMutationId({
       ...rest,
       name: communityId,
       admin: ctx.user._id,
-      members: ctx.user._id,
-      mods: [],
+      members: [ctx.user._id],
     });
 
     await community.save();
