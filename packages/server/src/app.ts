@@ -1,7 +1,7 @@
 import Koa from 'koa';
-import Router from 'koa-router';
+import Router from '@koa/router';
 import bodyparser from 'koa-bodyparser';
-import GraphQLHTTP from 'koa-graphql';
+import { graphqlHTTP, OptionsData } from 'koa-graphql';
 import cors from '@koa/cors';
 
 import { schema } from './schema';
@@ -10,11 +10,17 @@ import { config } from './environment';
 const app = new Koa();
 const router = new Router();
 
-const graphQlSettingsPerReq = async (): Promise<GraphQLHTTP.OptionsData> => ({
-  graphiql: config.NODE_ENV !== 'production',
+const graphQlSettingsPerReq = async (): Promise<OptionsData> => ({
+  graphiql:
+    config.NODE_ENV !== 'production'
+      ? {
+          headerEditorEnabled: true,
+          shouldPersistHeaders: true,
+        }
+      : false,
   schema,
   pretty: true,
-  formatError: ({ message, locations, stack }) => {
+  customFormatErrorFn: ({ message, locations, stack }) => {
     /* eslint-disable no-console */
     console.log(message);
     console.log(locations);
@@ -29,7 +35,7 @@ const graphQlSettingsPerReq = async (): Promise<GraphQLHTTP.OptionsData> => ({
   },
 });
 
-const graphQlServer = GraphQLHTTP(graphQlSettingsPerReq);
+const graphQlServer = graphqlHTTP(graphQlSettingsPerReq);
 
 router.all('/graphql', graphQlServer);
 
