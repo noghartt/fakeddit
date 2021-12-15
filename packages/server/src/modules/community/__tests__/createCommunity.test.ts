@@ -18,7 +18,7 @@ it('should create a new community', async () => {
 
   const mutation = `
     mutation M($displayName: String!, $communityId: String!) {
-      createCommunityMutation(
+      communityCreate(
         input: { displayName: $displayName, communityId: $communityId }
       ) {
         community {
@@ -48,7 +48,7 @@ it('should create a new community', async () => {
 
   expect(result.errors).toBeUndefined();
 
-  const { community } = result?.data?.createCommunityMutation;
+  const { community } = result?.data?.communityCreate;
 
   expect(community.id).toBeDefined();
   expect(community.name).toBe(variables.communityId);
@@ -60,7 +60,7 @@ it('should create a new community', async () => {
 it("should not allow create a community if doesn't have authorization header", async () => {
   const mutation = `
     mutation M($displayName: String!, $communityId: String!) {
-      createCommunityMutation(
+      communityCreate(
         input: { displayName: $displayName, communityId: $communityId }
       ) {
         community {
@@ -82,7 +82,7 @@ it("should not allow create a community if doesn't have authorization header", a
 
   const result = await graphql(schema, mutation, rootValue, {}, variables);
 
-  expect(result?.data?.createCommunityMutation).toBeNull();
+  expect(result?.data?.communityCreate).toBeNull();
 
   expect(result?.errors).toBeDefined();
   expect(result.errors && result.errors[0]?.message).toBe(
@@ -95,7 +95,7 @@ it('should not create a duplicate community', async () => {
 
   const mutation = `
     mutation M($displayName: String!, $communityId: String!) {
-      createCommunityMutation(
+      communityCreate(
         input: { displayName: $displayName, communityId: $communityId }
       ) {
         community {
@@ -124,7 +124,7 @@ it('should not create a duplicate community', async () => {
     variables,
   );
 
-  expect(result?.data?.createCommunityMutation).toBeNull();
+  expect(result?.data?.communityCreate).toBeNull();
 
   expect(result?.errors).toBeDefined();
   expect(result.errors && result.errors[0].message).toBe(

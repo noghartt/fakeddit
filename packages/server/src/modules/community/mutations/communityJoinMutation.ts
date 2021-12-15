@@ -9,8 +9,8 @@ import { UserModel } from '../../user/UserModel';
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
-export const joinCommunityMutation = mutationWithClientMutationId({
-  name: 'JoinCommunity',
+export const communityJoin = mutationWithClientMutationId({
+  name: 'CommunityJoin',
   inputFields: {
     communityId: { type: new GraphQLNonNull(GraphQLString) },
   },

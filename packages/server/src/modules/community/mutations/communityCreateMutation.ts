@@ -6,8 +6,8 @@ import { GraphQLContext } from '../../graphql/types';
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
-export const createCommunityMutation = mutationWithClientMutationId({
-  name: 'CreateCommunity',
+export const communityCreate = mutationWithClientMutationId({
+  name: 'CommunityCreate',
   inputFields: {
     communityId: { type: new GraphQLNonNull(GraphQLString) },
     displayName: { type: new GraphQLNonNull(GraphQLString) },

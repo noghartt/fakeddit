@@ -1,2 +1,2 @@
-export * from './createCommunityMutation';
-export * from './joinCommunityMutation';
+export * from './communityCreateMutation';
+export * from './communityJoinMutation';

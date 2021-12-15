@@ -21,18 +21,18 @@ it('should join a created community', async () => {
   const user = await createUser();
 
   const mutation = `
-    mutation M($communityId: String!) {
-      joinCommunityMutation(input: { communityId: $communityId }) {
-        community {
-          id
-          members
-        }
-        me {
-          id
-          communities
-        }
-      }
+mutation M($communityId: String!) {
+  joinCommunity(input: { communityId: $communityId }) {
+    community {
+      id
+      members
     }
+    me {
+      id
+      communities
+    }
+  }
+}
   `;
 
   const rootValue = {};
@@ -51,7 +51,7 @@ it('should join a created community', async () => {
 
   expect(result.errors).toBeUndefined();
 
-  const { community, me } = result?.data?.joinCommunityMutation;
+  const { community, me } = result?.data?.joinCommunity;
 
   expect(me.communities).toHaveLength(1);
   expect(me.communities).toContain(fromGlobalId(community.id).id);
@@ -63,7 +63,7 @@ it('should join a created community', async () => {
 it("should not allow to join a community if doesn't have authorization header", async () => {
   const mutation = `
     mutation M($communityId: String!) {
-      joinCommunityMutation(input: { communityId: $communityId }) {
+      joinCommunity(input: { communityId: $communityId }) {
         me {
           id
         }
@@ -79,7 +79,7 @@ it("should not allow to join a community if doesn't have authorization header", 
 
   const result = await graphql(schema, mutation, rootValue, {}, variables);
 
-  expect(result?.data?.joinCommunityMutation).toBeNull();
+  expect(result?.data?.joinCommunity).toBeNull();
 
   expect(result?.errors).toBeDefined();
   expect(result.errors && result.errors[0].message).toBe(
@@ -92,7 +92,7 @@ it('should not join a non-existent community', async () => {
 
   const mutation = `
     mutation M($communityId: String!) {
-      joinCommunityMutation(input: { communityId: $communityId }) {
+      joinCommunity(input: { communityId: $communityId }) {
         me {
           id
         }
@@ -115,7 +115,7 @@ it('should not join a non-existent community', async () => {
     variables,
   );
 
-  expect(result?.data?.joinCommunityMutation).toBeNull();
+  expect(result?.data?.joinCommunity).toBeNull();
 
   expect(result?.errors).toBeDefined();
   expect(result.errors && result.errors[0].message).toBe(
@@ -129,7 +129,7 @@ it('should not join a community that you already is a member', async () => {
 
   const mutation = `
     mutation M($communityId: String!) {
-      joinCommunityMutation(input: { communityId: $communityId }) {
+      joinCommunity(input: { communityId: $communityId }) {
         me {
           id
         }
@@ -152,7 +152,7 @@ it('should not join a community that you already is a member', async () => {
     variables,
   );
 
-  expect(result?.data?.joinCommunityMutation).toBeNull();
+  expect(result?.data?.joinCommunity).toBeNull();
 
   expect(result?.errors).toBeDefined();
   expect(result.errors && result.errors[0].message).toBe(
