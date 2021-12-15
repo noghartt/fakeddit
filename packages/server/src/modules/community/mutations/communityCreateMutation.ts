@@ -21,11 +21,11 @@ export const communityCreate = mutationWithClientMutationId({
       throw new Error('You are not logged in. Please, try again!');
     }
 
-    const findedCommunity = await CommunityModel.findOne({
+    const communityFound = await CommunityModel.findOne({
       name: communityId,
     });
 
-    if (findedCommunity) {
+    if (communityFound) {
       throw new Error(
         'A community with this name has already been created. Please, try again!',
       );
