@@ -4,7 +4,7 @@ import bodyparser from 'koa-bodyparser';
 import { graphqlHTTP, OptionsData } from 'koa-graphql';
 import cors from '@koa/cors';
 
-import { schema } from './schema';
+import { schema } from './schema/schema';
 import { config } from './environment';
 import { getUser } from './auth';
 
