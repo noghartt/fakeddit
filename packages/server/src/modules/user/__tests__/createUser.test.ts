@@ -5,7 +5,7 @@ import {
   connectWithMongoose,
   disconnectWithMongoose,
 } from '../../../../test';
-import { schema } from '../../../schema';
+import { schema } from '../../../schema/schema';
 
 beforeAll(connectWithMongoose);
 beforeEach(clearDatabaseAndRestartCounters);

@@ -6,7 +6,7 @@ import {
   connectWithMongoose,
   disconnectWithMongoose,
 } from '../../../../test';
-import { schema } from '../../../schema';
+import { schema } from '../../../schema/schema';
 
 import { createUser } from '../../user/fixtures/createUser';
 
