@@ -8,7 +8,7 @@ export interface Community {
   mods: Types.ObjectId[];
 }
 
-const CommunitySchema = new Schema<Community>(
+const CommunitySchema = new Schema(
   {
     name: {
       type: String,
@@ -18,14 +18,23 @@ const CommunitySchema = new Schema<Community>(
     },
     admin: {
       type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     displayName: {
       type: String,
       required: true,
     },
-    mods: [Schema.Types.ObjectId],
-    members: [Schema.Types.ObjectId],
+    mods: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+      default: [],
+    },
+    members: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+      required: true,
+    },
   },
   {
     timestamps: {
