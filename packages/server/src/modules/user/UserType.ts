@@ -1,4 +1,10 @@
-import { GraphQLObjectType, GraphQLString, GraphQLNonNull } from 'graphql';
+import {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLList,
+  GraphQLID,
+} from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import { User } from './UserModel';
@@ -18,6 +24,10 @@ export const UserType = new GraphQLObjectType<User>({
     email: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: user => user.email,
+    },
+    communities: {
+      type: new GraphQLNonNull(new GraphQLList(GraphQLID)),
+      resolve: user => user.communities,
     },
   }),
 });
