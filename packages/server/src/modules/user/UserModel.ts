@@ -26,7 +26,7 @@ const UserSchema = new Schema(
     },
     displayName: {
       type: String,
-      max: 30,
+      maxlength: 30,
     },
     password: {
       type: String,
@@ -40,6 +40,7 @@ const UserSchema = new Schema(
     communities: {
       type: [Schema.Types.ObjectId],
       default: [],
+      ref: 'Community',
     },
   },
   {
