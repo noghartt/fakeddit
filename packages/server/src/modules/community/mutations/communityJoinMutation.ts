@@ -5,6 +5,7 @@ import { GraphQLContext } from '../../graphql/types';
 
 import { UserType } from '../../user/UserType';
 import { UserModel } from '../../user/UserModel';
+import UserLoader from '../../user/UserLoader';
 
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
@@ -15,35 +16,32 @@ export const communityJoin = mutationWithClientMutationId({
     communityId: { type: new GraphQLNonNull(GraphQLString) },
   },
   mutateAndGetPayload: async ({ communityId }, ctx: GraphQLContext) => {
-    // TODO: In some way, you can pass it to a middleware. But IDK how to do it yet.
-    if (!ctx.user) {
-      throw new Error('You are not logged in. Please, try again!');
-    }
-
     const community = await CommunityModel.findOne({ name: communityId });
 
     if (!community) {
       throw new Error("This community doesn't exist. Please, try again.");
     }
 
+    const foundUser = await UserModel.findById(ctx.user?._id);
+
     if (
-      community.members.includes(ctx.user._id) ||
-      ctx.user.communities.includes(community._id)
+      community.members.includes(foundUser._id) ||
+      foundUser.communities.includes(community._id)
     ) {
       throw new Error('You are already a member of this community.');
     }
 
     await Promise.all([
       community.updateOne({
-        $addToSet: { members: [...community.members, ctx.user._id] },
+        $addToSet: { members: [...community.members, foundUser._id] },
       }),
-      ctx.user.updateOne({
-        $addToSet: { communities: [...ctx.user.communities, community._id] },
+      foundUser.updateOne({
+        $addToSet: { communities: [...foundUser.communities, community._id] },
       }),
     ]);
 
     return {
-      userId: ctx.user._id,
+      userId: foundUser._id,
       communityId: community._id,
     };
   },
@@ -55,7 +53,8 @@ export const communityJoin = mutationWithClientMutationId({
     },
     me: {
       type: UserType,
-      resolve: async ({ userId }) => await UserModel.findOne({ _id: userId }),
+      resolve: async ({ userId }, _, context) =>
+        await UserLoader.load(context, userId),
     },
   }),
 });
