@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { printSchema } from 'graphql/utilities';
 
-import { schema } from '../src/schema';
+import { schema } from '../src/schema/schema';
 
 const pwd = process.cwd();
 
