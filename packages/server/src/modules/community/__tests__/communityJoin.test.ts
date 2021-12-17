@@ -7,6 +7,7 @@ import {
   disconnectWithMongoose,
 } from '../../../../test';
 import { schema } from '../../../schema/schema';
+import { getContext } from '../../../getContext';
 
 import { createUser } from '../../user/fixtures/createUser';
 
@@ -21,18 +22,18 @@ it('should join a created community', async () => {
   const user = await createUser();
 
   const mutation = `
-mutation M($communityId: String!) {
-  communityJoin(input: { communityId: $communityId }) {
-    community {
-      id
-      members
+    mutation M($communityId: String!) {
+      communityJoin(input: { communityId: $communityId }) {
+        community {
+          id
+          members
+        }
+        me {
+          id
+          communities
+        }
+      }
     }
-    me {
-      id
-      communities
-    }
-  }
-}
   `;
 
   const rootValue = {};
@@ -41,13 +42,9 @@ mutation M($communityId: String!) {
     communityId: 'WeLoveTests',
   };
 
-  const result = await graphql(
-    schema,
-    mutation,
-    rootValue,
-    { user },
-    variables,
-  );
+  const context = await getContext({ user });
+
+  const result = await graphql(schema, mutation, rootValue, context, variables);
 
   expect(result.errors).toBeUndefined();
 
@@ -77,7 +74,9 @@ it("should not allow to join a community if doesn't have authorization header", 
     communityId: 'WeLoveTests',
   };
 
-  const result = await graphql(schema, mutation, rootValue, {}, variables);
+  const context = getContext();
+
+  const result = await graphql(schema, mutation, rootValue, context, variables);
 
   expect(result?.data?.communityJoin).toBeNull();
 
@@ -106,7 +105,9 @@ it('should not join a non-existent community', async () => {
     communityId: 'WeLoveTestsButThisCommunityDoesntExist',
   };
 
-  await graphql(schema, mutation, rootValue, { user }, variables);
+  const context = await getContext({ user });
+
+  await graphql(schema, mutation, rootValue, context, variables);
   const result = await graphql(
     schema,
     mutation,
@@ -143,7 +144,9 @@ it('should not join a community that you already is a member', async () => {
     communityId: 'WeLoveTests',
   };
 
-  await graphql(schema, mutation, rootValue, { user }, variables);
+  const context = await getContext({ user });
+
+  await graphql(schema, mutation, rootValue, context, variables);
   const result = await graphql(
     schema,
     mutation,

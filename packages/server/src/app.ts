@@ -7,12 +7,14 @@ import cors from '@koa/cors';
 import { schema } from './schema/schema';
 import { config } from './environment';
 import { getUser } from './auth';
+import { getAllDataLoaders } from './modules/graphql/loaderRegister';
 
 const app = new Koa();
 const router = new Router();
 
 const graphQlSettingsPerReq = async (req: Request): Promise<OptionsData> => {
   const user = await getUser(req.header.authorization);
+  const dataloaders = getAllDataLoaders();
 
   return {
     graphiql:
@@ -26,6 +28,7 @@ const graphQlSettingsPerReq = async (req: Request): Promise<OptionsData> => {
     pretty: true,
     context: {
       user,
+      dataloaders,
     },
     customFormatErrorFn: ({ message, locations, stack }) => {
       /* eslint-disable no-console */
