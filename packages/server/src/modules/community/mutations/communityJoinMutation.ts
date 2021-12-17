@@ -16,6 +16,10 @@ export const communityJoin = mutationWithClientMutationId({
     communityId: { type: new GraphQLNonNull(GraphQLString) },
   },
   mutateAndGetPayload: async ({ communityId }, ctx: GraphQLContext) => {
+    if (!ctx.user) {
+      throw new Error('You are not logged in. Please, try again!');
+    }
+
     const community = await CommunityModel.findOne({ name: communityId });
 
     if (!community) {
