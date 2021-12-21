@@ -1,22 +1,17 @@
-import { createLoader } from '@entria/graphql-mongo-helpers';
+import { createLoader, NullConnection } from '@entria/graphql-mongo-helpers';
 
 import { registerLoader } from '../graphql/loaderRegister';
 
 import { UserModel } from './UserModel';
 
-const UserLoader = createLoader({
+const Loader = createLoader({
   model: UserModel,
   loaderName: 'UserLoader',
   shouldValidateContextUser: true,
+  viewerCanSee: (context, data) => (context?.user ? data : NullConnection),
 });
 
-export default UserLoader;
-export const {
-  Wrapper: User,
-  getLoader,
-  clearCache,
-  load,
-  loadAll,
-} = UserLoader;
+export default Loader;
+export const { Wrapper: User, getLoader, clearCache, load, loadAll } = Loader;
 
 registerLoader('UserLoader', getLoader);
