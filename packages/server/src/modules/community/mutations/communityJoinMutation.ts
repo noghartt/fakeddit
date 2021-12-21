@@ -29,23 +29,25 @@ export const communityJoin = mutationWithClientMutationId({
     const foundUser = await UserModel.findById(ctx.user?._id);
 
     if (
-      community.members.includes(foundUser._id) ||
-      foundUser.communities.includes(community._id)
+      community.members.includes(foundUser?._id) ||
+      foundUser?.communities.includes(community._id)
     ) {
       throw new Error('You are already a member of this community.');
     }
 
     await Promise.all([
       community.updateOne({
-        $addToSet: { members: [...community.members, foundUser._id] },
+        $addToSet: { members: [...community.members, foundUser?._id] },
       }),
-      foundUser.updateOne({
-        $addToSet: { communities: [...foundUser.communities, community._id] },
+      foundUser?.updateOne({
+        $addToSet: {
+          communities: [...(foundUser?.communities || []), community._id],
+        },
       }),
     ]);
 
     return {
-      userId: foundUser._id,
+      userId: foundUser?._id,
       communityId: community._id,
     };
   },

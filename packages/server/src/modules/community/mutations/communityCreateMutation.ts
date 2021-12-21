@@ -3,6 +3,10 @@ import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { GraphQLContext } from '../../graphql/types';
 
+import { UserType } from '../../user/UserType';
+import { UserModel } from '../../user/UserModel';
+import UserLoader from '../../user/UserLoader';
+
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
@@ -16,7 +20,6 @@ export const communityCreate = mutationWithClientMutationId({
     { communityId, ...rest },
     ctx: GraphQLContext,
   ) => {
-    // TODO: In some way, you can pass it to a middleware. But IDK how to do it yet.
     if (!ctx.user) {
       throw new Error('You are not logged in. Please, try again!');
     }
@@ -31,14 +34,21 @@ export const communityCreate = mutationWithClientMutationId({
       );
     }
 
+    const foundUser = await UserModel.findById(ctx?.user._id);
+
     const community = new CommunityModel({
       ...rest,
       name: communityId,
-      admin: ctx.user._id,
-      members: [ctx.user._id],
+      admin: foundUser,
+      members: foundUser,
     });
 
-    await community.save();
+    await Promise.all([
+      community.save(),
+      foundUser?.updateOne({
+        $addToSet: { communities: community._id },
+      }),
+    ]);
 
     return {
       community,
@@ -48,6 +58,11 @@ export const communityCreate = mutationWithClientMutationId({
     community: {
       type: CommunityType,
       resolve: ({ community }) => community,
+    },
+    me: {
+      type: UserType,
+      resolve: async ({ userId }, _, context) =>
+        await UserLoader.load(context, userId),
     },
   }),
 });
