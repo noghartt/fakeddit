@@ -1,4 +1,5 @@
 import { graphql } from 'graphql';
+import { fromGlobalId } from 'graphql-relay';
 
 import {
   clearDatabaseAndRestartCounters,
@@ -6,6 +7,7 @@ import {
   disconnectWithMongoose,
 } from '../../../../test';
 import { schema } from '../../../schema/schema';
+import { getContext } from '../../../getContext';
 
 import { createUser } from '../../user/fixtures/createUser';
 
@@ -25,7 +27,13 @@ it('should create a new community', async () => {
           id
           name
           displayName
-          members
+          members(first: 10) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     }
@@ -42,7 +50,7 @@ it('should create a new community', async () => {
     schema,
     mutation,
     rootValue,
-    { user },
+    getContext({ user }),
     variables,
   );
 
@@ -53,8 +61,13 @@ it('should create a new community', async () => {
   expect(community.id).toBeDefined();
   expect(community.name).toBe(variables.communityId);
   expect(community.displayName).toBe(variables.displayName);
-  expect(community.members).toHaveLength(1);
-  expect(community.members).toContain(user._id.toString());
+  expect(community.members.edges).toHaveLength(1);
+
+  const membersId = community.members.edges.map(
+    edge => fromGlobalId(edge.node.id).id,
+  );
+
+  expect(membersId).toContain(user._id.toString());
 });
 
 it("should not allow create a community if doesn't have authorization header", async () => {
@@ -65,9 +78,6 @@ it("should not allow create a community if doesn't have authorization header", a
       ) {
         community {
           id
-          name
-          displayName
-          members
         }
       }
     }
@@ -100,9 +110,6 @@ it('should not create a duplicate community', async () => {
       ) {
         community {
           id
-          name
-          displayName
-          members
         }
       }
     }

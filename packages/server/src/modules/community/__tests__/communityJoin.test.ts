@@ -26,11 +26,23 @@ it('should join a created community', async () => {
       communityJoin(input: { communityId: $communityId }) {
         community {
           id
-          members
+          members(first: 10) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
         me {
           id
-          communities
+          communities(first: 10) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     }
@@ -42,7 +54,7 @@ it('should join a created community', async () => {
     communityId: 'WeLoveTests',
   };
 
-  const context = await getContext({ user });
+  const context = getContext({ user });
 
   const result = await graphql(schema, mutation, rootValue, context, variables);
 
@@ -50,18 +62,27 @@ it('should join a created community', async () => {
 
   const { community, me } = result?.data?.communityJoin;
 
-  expect(me.communities).toHaveLength(1);
-  expect(me.communities).toContain(fromGlobalId(community.id).id);
+  expect(me.communities.edges).toHaveLength(1);
+  expect(community.members.edges).toHaveLength(2);
 
-  expect(community.members).toHaveLength(2);
-  expect(community.members).toContain(fromGlobalId(me.id).id);
+  const communitiesId = me.communities.edges.map(
+    edge => fromGlobalId(edge.node.id).id,
+  );
+
+  expect(communitiesId).toContain(fromGlobalId(community.id).id);
+
+  const membersId = community.members.edges.map(
+    edge => fromGlobalId(edge.node.id).id,
+  );
+
+  expect(membersId).toContain(fromGlobalId(me.id).id);
 });
 
 it("should not allow to join a community if doesn't have authorization header", async () => {
   const mutation = `
     mutation M($communityId: String!) {
       communityJoin(input: { communityId: $communityId }) {
-        me {
+        community {
           id
         }
       }

@@ -9,7 +9,7 @@ export interface Community {
 }
 
 // TODO: Is there a way to do it better?
-interface CommunityDocument extends Community, Document {}
+export interface CommunityDocument extends Community, Document {}
 
 const CommunitySchema = new Schema(
   {
