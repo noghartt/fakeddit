@@ -3,9 +3,7 @@ import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { GraphQLContext } from '../../graphql/types';
 
-import { UserType } from '../../user/UserType';
 import { UserModel } from '../../user/UserModel';
-import UserLoader from '../../user/UserLoader';
 
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
@@ -58,11 +56,6 @@ export const communityCreate = mutationWithClientMutationId({
     community: {
       type: CommunityType,
       resolve: ({ community }) => community,
-    },
-    me: {
-      type: UserType,
-      resolve: async ({ userId }, _, context) =>
-        await UserLoader.load(context, userId),
     },
   }),
 });

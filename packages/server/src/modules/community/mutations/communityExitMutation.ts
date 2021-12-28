@@ -7,8 +7,6 @@ import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
 import { UserModel } from '../../user/UserModel';
-import { UserType } from '../../user/UserType';
-import UserLoader from '../../user/UserLoader';
 
 export const communityExit = mutationWithClientMutationId({
   name: 'CommunityExit',
@@ -58,11 +56,6 @@ export const communityExit = mutationWithClientMutationId({
       type: CommunityType,
       resolve: async ({ communityId }) =>
         await CommunityModel.findOne({ _id: communityId }),
-    },
-    me: {
-      type: UserType,
-      resolve: async ({ userId }, _, context) =>
-        await UserLoader.load(context, userId),
     },
   }),
 });
