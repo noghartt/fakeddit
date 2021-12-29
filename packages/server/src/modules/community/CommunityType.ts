@@ -6,12 +6,23 @@ import {
   GraphQLNonNull,
 } from 'graphql';
 import { globalIdField } from 'graphql-relay';
+import {
+  withFilter,
+  connectionArgs,
+  connectionDefinitions,
+} from '@entria/graphql-mongo-helpers';
 
-import { Community } from './CommunityModel';
+import { UserConnection } from '../user/UserType';
+import UserLoader from '../user/UserLoader';
 
-export const CommunityType = new GraphQLObjectType<Community>({
+import { nodeInterface, registerTypeLoader } from '../graphql/typeRegister';
+
+import { CommunityDocument } from './CommunityModel';
+import { load } from './CommunityLoader';
+
+export const CommunityType = new GraphQLObjectType<CommunityDocument>({
   name: 'Community',
-  fields: {
+  fields: () => ({
     id: globalIdField('Community'),
     name: {
       type: new GraphQLNonNull(GraphQLString),
@@ -27,16 +38,29 @@ export const CommunityType = new GraphQLObjectType<Community>({
     admin: {
       type: new GraphQLNonNull(GraphQLID),
     },
+    // TODO: It should be a connection pagination
     mods: {
       type: new GraphQLNonNull(new GraphQLList(GraphQLID)),
       resolve: community => community.mods,
     },
     members: {
-      // TODO: Turn it a list of ObjectIDs
-      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLID))),
-      resolve: community => community.members,
+      type: new GraphQLNonNull(UserConnection.connectionType),
+      args: { ...connectionArgs },
+      resolve: async (community, args, context) =>
+        await UserLoader.loadAll(
+          context,
+          withFilter(args, { communities: community._id }),
+        ),
       description:
         'A list containing the IDs of all users that is member of this community',
     },
-  },
+  }),
+  interfaces: () => [nodeInterface],
 });
+
+export const CommunityConnection = connectionDefinitions({
+  name: 'CommunityConnectioon',
+  nodeType: CommunityType,
+});
+
+registerTypeLoader(CommunityType, load);

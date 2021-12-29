@@ -2,11 +2,11 @@ import { createLoader, NullConnection } from '@entria/graphql-mongo-helpers';
 
 import { registerLoader } from '../graphql/loaderRegister';
 
-import { UserModel } from './UserModel';
+import { CommunityModel } from './CommunityModel';
 
 const Loader = createLoader({
-  model: UserModel,
-  loaderName: 'UserLoader',
+  model: CommunityModel,
+  loaderName: 'CommunityLoader',
   shouldValidateContextUser: true,
   viewerCanSee: (context, data) => (context?.user ? data : NullConnection),
 });
@@ -14,4 +14,4 @@ const Loader = createLoader({
 export default Loader;
 export const { Wrapper: User, getLoader, clearCache, load, loadAll } = Loader;
 
-registerLoader('UserLoader', getLoader);
+registerLoader('CommunityLoader', getLoader);

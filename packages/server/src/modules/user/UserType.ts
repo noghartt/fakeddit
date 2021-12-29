@@ -1,13 +1,18 @@
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLNonNull,
-  GraphQLList,
-  GraphQLID,
-} from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLNonNull } from 'graphql';
 import { globalIdField } from 'graphql-relay';
+import {
+  connectionDefinitions,
+  connectionArgs,
+  withFilter,
+} from '@entria/graphql-mongo-helpers';
+
+import { CommunityConnection } from '../community/CommunityType';
+import CommunityLoader from '../community/CommunityLoader';
+
+import { registerTypeLoader, nodeInterface } from '../graphql/typeRegister';
 
 import { User } from './UserModel';
+import { load } from './UserLoader';
 
 export const UserType = new GraphQLObjectType<User>({
   name: 'User',
@@ -26,8 +31,21 @@ export const UserType = new GraphQLObjectType<User>({
       resolve: user => user.email,
     },
     communities: {
-      type: new GraphQLNonNull(new GraphQLList(GraphQLID)),
-      resolve: user => user.communities,
+      type: new GraphQLNonNull(CommunityConnection.connectionType),
+      args: { ...connectionArgs },
+      resolve: async (user, args, context) =>
+        await CommunityLoader.loadAll(
+          context,
+          withFilter(args, { members: user._id }),
+        ),
     },
   }),
+  interfaces: () => [nodeInterface],
 });
+
+export const UserConnection = connectionDefinitions({
+  name: 'UserConnection',
+  nodeType: UserType,
+});
+
+registerTypeLoader(UserType, load);

@@ -18,11 +18,15 @@ export const createCommunity = async (
     createUser,
   );
 
-  return new CommunityModel({
+  const community = await new CommunityModel({
     name: `community#${i}`,
     displayName: `MockedCommunity#${i}`,
     ...args,
     admin: user._id,
     members: [user._id],
   }).save();
+
+  await user.updateOne({ $addToSet: { communities: community._id } });
+
+  return community;
 };

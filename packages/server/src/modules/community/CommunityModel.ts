@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from 'mongoose';
+import mongoose, { Schema, Types, Document } from 'mongoose';
 
 export interface Community {
   name: string;
@@ -7,6 +7,9 @@ export interface Community {
   members: Types.ObjectId[];
   mods: Types.ObjectId[];
 }
+
+// TODO: Is there a way to do it better?
+export interface CommunityDocument extends Community, Document {}
 
 const CommunitySchema = new Schema(
   {
@@ -44,4 +47,7 @@ const CommunitySchema = new Schema(
   },
 );
 
-export const CommunityModel = mongoose.model('Community', CommunitySchema);
+export const CommunityModel = mongoose.model<CommunityDocument>(
+  'Community',
+  CommunitySchema,
+);

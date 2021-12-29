@@ -26,11 +26,13 @@ it('should join a created community', async () => {
       communityJoin(input: { communityId: $communityId }) {
         community {
           id
-          members
-        }
-        me {
-          id
-          communities
+          members(first: 10) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     }
@@ -42,26 +44,28 @@ it('should join a created community', async () => {
     communityId: 'WeLoveTests',
   };
 
-  const context = await getContext({ user });
+  const context = getContext({ user });
 
   const result = await graphql(schema, mutation, rootValue, context, variables);
 
   expect(result.errors).toBeUndefined();
 
-  const { community, me } = result?.data?.communityJoin;
+  const { community } = result?.data?.communityJoin;
 
-  expect(me.communities).toHaveLength(1);
-  expect(me.communities).toContain(fromGlobalId(community.id).id);
+  expect(community.members.edges).toHaveLength(2);
 
-  expect(community.members).toHaveLength(2);
-  expect(community.members).toContain(fromGlobalId(me.id).id);
+  const membersId = community.members.edges.map(
+    edge => fromGlobalId(edge.node.id).id,
+  );
+
+  expect(membersId).toContain(user._id.toString());
 });
 
 it("should not allow to join a community if doesn't have authorization header", async () => {
   const mutation = `
     mutation M($communityId: String!) {
       communityJoin(input: { communityId: $communityId }) {
-        me {
+        community {
           id
         }
       }
@@ -92,7 +96,7 @@ it('should not join a non-existent community', async () => {
   const mutation = `
     mutation M($communityId: String!) {
       communityJoin(input: { communityId: $communityId }) {
-        me {
+        community {
           id
         }
       }
@@ -131,7 +135,7 @@ it('should not join a community that you already is a member', async () => {
   const mutation = `
     mutation M($communityId: String!) {
       communityJoin(input: { communityId: $communityId }) {
-        me {
+        community {
           id
         }
       }

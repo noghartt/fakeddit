@@ -16,7 +16,6 @@ export const communityCreate = mutationWithClientMutationId({
     { communityId, ...rest },
     ctx: GraphQLContext,
   ) => {
-    // TODO: In some way, you can pass it to a middleware. But IDK how to do it yet.
     if (!ctx.user) {
       throw new Error('You are not logged in. Please, try again!');
     }
@@ -34,11 +33,16 @@ export const communityCreate = mutationWithClientMutationId({
     const community = new CommunityModel({
       ...rest,
       name: communityId,
-      admin: ctx.user._id,
-      members: [ctx.user._id],
+      admin: ctx.user,
+      members: ctx.user,
     });
 
-    await community.save();
+    await Promise.all([
+      community.save(),
+      ctx.user.updateOne({
+        $addToSet: { communities: community._id },
+      }),
+    ]);
 
     return {
       community,
