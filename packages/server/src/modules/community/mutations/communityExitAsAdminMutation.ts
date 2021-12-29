@@ -28,10 +28,14 @@ export const communityExitAsAdmin = mutationWithClientMutationId({
 
     const foundUser = await UserModel.findById(ctx.user?._id);
 
-    if (
-      !foundCommunity.members.includes(foundUser?._id) ||
-      !foundUser?.communities.includes(foundCommunity._id)
-    ) {
+    const foundMemberIdInCommuntiy = foundCommunity.members.includes(
+      foundUser?._id,
+    );
+    const foundCommuntiyIdInUser = foundUser?.communities.includes(
+      foundCommunity._id,
+    );
+
+    if (!foundMemberIdInCommuntiy || !foundCommuntiyIdInUser) {
       throw new Error('You are not a member of this community.');
     }
 
@@ -47,10 +51,10 @@ export const communityExitAsAdmin = mutationWithClientMutationId({
       await foundCommunity.remove();
     }
 
-    await foundUser.updateOne({ $pull: { communities: foundCommunity._id } });
+    await foundUser?.updateOne({ $pull: { communities: foundCommunity._id } });
 
     return {
-      userId: foundUser._id,
+      userId: foundUser?._id,
       communityId: foundCommunity._id,
     };
   },

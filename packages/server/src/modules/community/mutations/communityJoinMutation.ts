@@ -26,10 +26,12 @@ export const communityJoin = mutationWithClientMutationId({
 
     const foundUser = await UserModel.findById(ctx.user?._id);
 
-    if (
-      community.members.includes(foundUser?._id) ||
-      foundUser?.communities.includes(community._id)
-    ) {
+    const foundMemberIdInCommuntiy = community.members.includes(foundUser?._id);
+    const foundCommuntiyIdInUser = foundUser?.communities.includes(
+      community._id,
+    );
+
+    if (foundMemberIdInCommuntiy || foundCommuntiyIdInUser) {
       throw new Error('You are already a member of this community.');
     }
 

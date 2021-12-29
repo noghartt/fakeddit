@@ -28,26 +28,30 @@ export const communityExit = mutationWithClientMutationId({
 
     const foundUser = await UserModel.findById(ctx.user?._id);
 
-    if (
-      !foundCommunity.members.includes(foundUser?._id) ||
-      !foundUser?.communities.includes(foundCommunity._id)
-    ) {
+    const foundMemberIdInCommuntiy = foundCommunity.members.includes(
+      foundUser?._id,
+    );
+    const foundCommuntiyIdInUser = foundUser?.communities.includes(
+      foundCommunity._id,
+    );
+
+    if (!foundMemberIdInCommuntiy || foundCommuntiyIdInUser) {
       throw new Error('You are not a member of this community.');
     }
 
-    if (foundCommunity.admin.equals(foundUser._id)) {
+    if (foundCommunity.admin.equals(foundUser?._id)) {
       throw new Error(
         "You can't exit a community using this method being the admin. Try communityExitAsAdmin mutation!",
       );
     }
 
     await Promise.all([
-      foundCommunity.updateOne({ $pull: { members: foundUser._id } }),
-      foundUser.updateOne({ $pull: { communities: foundCommunity._id } }),
+      foundCommunity.updateOne({ $pull: { members: foundUser?._id } }),
+      foundUser?.updateOne({ $pull: { communities: foundCommunity?._id } }),
     ]);
 
     return {
-      userId: foundUser._id,
+      userId: foundUser?._id,
       communityId: foundCommunity._id,
     };
   },
