@@ -3,10 +3,6 @@ import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { GraphQLContext } from '../../graphql/types';
 
-import { UserType } from '../../user/UserType';
-import { UserModel } from '../../user/UserModel';
-import UserLoader from '../../user/UserLoader';
-
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
@@ -26,28 +22,26 @@ export const communityJoin = mutationWithClientMutationId({
       throw new Error("This community doesn't exist. Please, try again.");
     }
 
-    const foundUser = await UserModel.findById(ctx.user?._id);
+    const foundMemberIdInCommuntiy = community.members.includes(ctx.user._id);
+    const foundCommuntiyIdInUser = ctx.user.communities.includes(community._id);
 
-    if (
-      community.members.includes(foundUser?._id) ||
-      foundUser?.communities.includes(community._id)
-    ) {
+    if (foundMemberIdInCommuntiy || foundCommuntiyIdInUser) {
       throw new Error('You are already a member of this community.');
     }
 
     await Promise.all([
       community.updateOne({
-        $addToSet: { members: [...community.members, foundUser?._id] },
+        $addToSet: { members: [...community.members, ctx.user._id] },
       }),
-      foundUser?.updateOne({
+      ctx.user.updateOne({
         $addToSet: {
-          communities: [...(foundUser?.communities || []), community._id],
+          communities: [...(ctx.user.communities || []), community._id],
         },
       }),
     ]);
 
     return {
-      userId: foundUser?._id,
+      userId: ctx.user._id,
       communityId: community._id,
     };
   },
@@ -56,11 +50,6 @@ export const communityJoin = mutationWithClientMutationId({
       type: CommunityType,
       resolve: async ({ communityId }) =>
         await CommunityModel.findOne({ _id: communityId }),
-    },
-    me: {
-      type: UserType,
-      resolve: async ({ userId }, _, context) =>
-        await UserLoader.load(context, userId),
     },
   }),
 });

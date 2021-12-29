@@ -6,10 +6,6 @@ import { GraphQLContext } from '../../graphql/types';
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
-import { UserModel } from '../../user/UserModel';
-import { UserType } from '../../user/UserType';
-import UserLoader from '../../user/UserLoader';
-
 export const communityExitAsAdmin = mutationWithClientMutationId({
   name: 'CommunityExitAsAdmin',
   inputFields: {
@@ -28,12 +24,14 @@ export const communityExitAsAdmin = mutationWithClientMutationId({
       throw new Error("This community doesn't exist. Please, try again.");
     }
 
-    const foundUser = await UserModel.findById(ctx.user?._id);
+    const foundMemberIdInCommuntiy = foundCommunity.members.includes(
+      ctx.user._id,
+    );
+    const foundCommuntiyIdInUser = ctx.user?.communities.includes(
+      foundCommunity._id,
+    );
 
-    if (
-      !foundCommunity.members.includes(foundUser?._id) ||
-      !foundUser?.communities.includes(foundCommunity._id)
-    ) {
+    if (!foundMemberIdInCommuntiy || !foundCommuntiyIdInUser) {
       throw new Error('You are not a member of this community.');
     }
 
@@ -42,17 +40,17 @@ export const communityExitAsAdmin = mutationWithClientMutationId({
         admin: foundCommunity.mods[0]._id,
         $pull: {
           mods: foundCommunity.mods[0]._id,
-          members: foundUser?._id,
+          members: ctx.user._id,
         },
       });
     } else {
       await foundCommunity.remove();
     }
 
-    await foundUser.updateOne({ $pull: { communities: foundCommunity._id } });
+    await ctx.user?.updateOne({ $pull: { communities: foundCommunity._id } });
 
     return {
-      userId: foundUser._id,
+      userId: ctx.user._id,
       communityId: foundCommunity._id,
     };
   },
@@ -61,11 +59,6 @@ export const communityExitAsAdmin = mutationWithClientMutationId({
       type: CommunityType,
       resolve: async ({ communityId }) =>
         await CommunityModel.findOne({ _id: communityId }),
-    },
-    me: {
-      type: UserType,
-      resolve: async ({ userId }, _, context) =>
-        await UserLoader.load(context, userId),
     },
   }),
 });
