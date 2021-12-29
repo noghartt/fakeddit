@@ -6,8 +6,6 @@ import { GraphQLContext } from '../../graphql/types';
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
-import { UserModel } from '../../user/UserModel';
-
 export const communityExitAsAdmin = mutationWithClientMutationId({
   name: 'CommunityExitAsAdmin',
   inputFields: {
@@ -26,12 +24,10 @@ export const communityExitAsAdmin = mutationWithClientMutationId({
       throw new Error("This community doesn't exist. Please, try again.");
     }
 
-    const foundUser = await UserModel.findById(ctx.user?._id);
-
     const foundMemberIdInCommuntiy = foundCommunity.members.includes(
-      foundUser?._id,
+      ctx.user._id,
     );
-    const foundCommuntiyIdInUser = foundUser?.communities.includes(
+    const foundCommuntiyIdInUser = ctx.user?.communities.includes(
       foundCommunity._id,
     );
 
@@ -44,17 +40,17 @@ export const communityExitAsAdmin = mutationWithClientMutationId({
         admin: foundCommunity.mods[0]._id,
         $pull: {
           mods: foundCommunity.mods[0]._id,
-          members: foundUser?._id,
+          members: ctx.user._id,
         },
       });
     } else {
       await foundCommunity.remove();
     }
 
-    await foundUser?.updateOne({ $pull: { communities: foundCommunity._id } });
+    await ctx.user?.updateOne({ $pull: { communities: foundCommunity._id } });
 
     return {
-      userId: foundUser?._id,
+      userId: ctx.user._id,
       communityId: foundCommunity._id,
     };
   },

@@ -3,8 +3,6 @@ import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { GraphQLContext } from '../../graphql/types';
 
-import { UserModel } from '../../user/UserModel';
-
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
@@ -32,18 +30,16 @@ export const communityCreate = mutationWithClientMutationId({
       );
     }
 
-    const foundUser = await UserModel.findById(ctx?.user._id);
-
     const community = new CommunityModel({
       ...rest,
       name: communityId,
-      admin: foundUser,
-      members: foundUser,
+      admin: ctx.user,
+      members: ctx.user,
     });
 
     await Promise.all([
       community.save(),
-      foundUser?.updateOne({
+      ctx.user.updateOne({
         $addToSet: { communities: community._id },
       }),
     ]);

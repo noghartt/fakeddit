@@ -6,8 +6,6 @@ import { GraphQLContext } from '../../graphql/types';
 import { CommunityModel } from '../CommunityModel';
 import { CommunityType } from '../CommunityType';
 
-import { UserModel } from '../../user/UserModel';
-
 export const communityExit = mutationWithClientMutationId({
   name: 'CommunityExit',
   inputFields: {
@@ -26,12 +24,10 @@ export const communityExit = mutationWithClientMutationId({
       throw new Error("This community doesn't exist. Please, try again.");
     }
 
-    const foundUser = await UserModel.findById(ctx.user?._id);
-
     const foundMemberIdInCommuntiy = foundCommunity.members.includes(
-      foundUser?._id,
+      ctx.user._id,
     );
-    const foundCommuntiyIdInUser = foundUser?.communities.includes(
+    const foundCommuntiyIdInUser = ctx.user.communities.includes(
       foundCommunity._id,
     );
 
@@ -39,19 +35,19 @@ export const communityExit = mutationWithClientMutationId({
       throw new Error('You are not a member of this community.');
     }
 
-    if (foundCommunity.admin.equals(foundUser?._id)) {
+    if (foundCommunity.admin.equals(ctx.user._id)) {
       throw new Error(
         "You can't exit a community using this method being the admin. Try communityExitAsAdmin mutation!",
       );
     }
 
     await Promise.all([
-      foundCommunity.updateOne({ $pull: { members: foundUser?._id } }),
-      foundUser?.updateOne({ $pull: { communities: foundCommunity?._id } }),
+      foundCommunity.updateOne({ $pull: { members: ctx.user._id } }),
+      ctx.user.updateOne({ $pull: { communities: foundCommunity?._id } }),
     ]);
 
     return {
-      userId: foundUser?._id,
+      userId: ctx.user._id,
       communityId: foundCommunity._id,
     };
   },
