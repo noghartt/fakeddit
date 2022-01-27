@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "start:dev": "webpack serve --hot",
-    "relay": "relay-compiler"
+    "relay": "relay-compiler",
+    "copy-env": "cp .env.example .env"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.2",
