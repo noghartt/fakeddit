@@ -34,7 +34,7 @@
     "babel-plugin-relay": "^13.0.1",
     "dotenv": "^14.3.2",
     "dotenv-webpack": "^7.0.3",
-    "graphql": "^15.0.0",
+    "graphql": "^15.8.0",
     "history": "^5.1.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
