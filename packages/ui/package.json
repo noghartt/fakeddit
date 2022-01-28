@@ -6,6 +6,6 @@
     "@chakra-ui/react": "^1.7.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "framer-motion": "^4"
+    "framer-motion": "^6"
   }
 }
