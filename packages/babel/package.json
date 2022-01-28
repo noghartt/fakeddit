@@ -5,7 +5,7 @@
   "devDependencies": {
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.12",
-    "@babel/node": "^7.16.0",
+    "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0"
   }
