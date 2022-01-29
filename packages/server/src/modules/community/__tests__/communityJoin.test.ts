@@ -38,18 +38,24 @@ it('should join a created community', async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     communityId: 'WeLoveTests',
   };
 
-  const context = getContext({ user });
+  const contextValue = getContext({ user });
 
-  const result = await graphql(schema, mutation, rootValue, context, variables);
+  const result = await graphql({
+    schema,
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
 
   expect(result.errors).toBeUndefined();
 
+  // TODO: Remove this @ts-ignore fixing the type
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { community } = result?.data?.communityJoin;
 
   expect(community.members.edges).toHaveLength(2);
@@ -72,15 +78,18 @@ it("should not allow to join a community if doesn't have authorization header", 
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     communityId: 'WeLoveTests',
   };
 
-  const context = getContext();
+  const contextValue = getContext();
 
-  const result = await graphql(schema, mutation, rootValue, context, variables);
+  const result = await graphql({
+    schema,
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
 
   expect(result?.data?.communityJoin).toBeNull();
 
@@ -103,22 +112,25 @@ it('should not join a non-existent community', async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     communityId: 'WeLoveTestsButThisCommunityDoesntExist',
   };
 
-  const context = await getContext({ user });
+  const contextValue = getContext({ user });
 
-  await graphql(schema, mutation, rootValue, context, variables);
-  const result = await graphql(
+  await graphql({
     schema,
-    mutation,
-    rootValue,
-    { user },
-    variables,
-  );
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
+
+  const result = await graphql({
+    schema,
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
 
   expect(result?.data?.communityJoin).toBeNull();
 
@@ -142,22 +154,25 @@ it('should not join a community that you already is a member', async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     communityId: 'WeLoveTests',
   };
 
-  const context = await getContext({ user });
+  const contextValue = getContext({ user });
 
-  await graphql(schema, mutation, rootValue, context, variables);
-  const result = await graphql(
+  await graphql({
     schema,
-    mutation,
-    rootValue,
-    { user },
-    variables,
-  );
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
+
+  const result = await graphql({
+    schema,
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
 
   expect(result?.data?.communityJoin).toBeNull();
 

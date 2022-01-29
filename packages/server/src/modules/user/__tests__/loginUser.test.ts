@@ -30,17 +30,22 @@ it('should login with a registered user', async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     username,
     password: '123abcAd9=D',
   };
 
-  const result = await graphql(schema, mutation, rootValue, {}, variables);
+  const result = await graphql({
+    schema,
+    source: mutation,
+    variableValues,
+  });
 
   expect(result.errors).toBeUndefined();
 
+  // TODO: Remove this @ts-ignore fixing the type
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { token, me } = result?.data?.userLoginMutation;
 
   expect(me.id).toBeDefined();
@@ -58,14 +63,16 @@ it("should display error if username isn't exists", async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     username: 'noghartt',
     password: '123abcAd9=D',
   };
 
-  const result = await graphql(schema, mutation, rootValue, {}, variables);
+  const result = await graphql({
+    schema,
+    source: mutation,
+    variableValues,
+  });
 
   expect(result.data?.userLoginMutation).toBeNull();
 
@@ -86,14 +93,16 @@ it('should display error if password is incorrect', async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     username: 'noghartt',
     password: '123abcAd9=',
   };
 
-  const result = await graphql(schema, mutation, rootValue, {}, variables);
+  const result = await graphql({
+    schema,
+    source: mutation,
+    variableValues,
+  });
 
   expect(result.data?.userLoginMutation).toBeNull();
 

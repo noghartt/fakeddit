@@ -28,17 +28,25 @@ it('should create a new user', async () => {
 
   const rootValue = {};
 
-  const variables = {
+  const variableValues = {
     username: 'noghartt',
     displayName: 'Noghartt',
     email: 'john@doe.com',
     password: '123abcAd9=D',
   };
 
-  const result = await graphql(schema, mutation, rootValue, {}, variables);
+  const result = await graphql({
+    schema,
+    source: mutation,
+    rootValue,
+    variableValues,
+  });
 
   expect(result.errors).toBeUndefined();
 
+  // TODO: Remove this @ts-ignore fixing the type
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { me, token } = result?.data?.userRegisterMutation;
 
   expect(token).toBeDefined();

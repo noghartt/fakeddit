@@ -39,28 +39,28 @@ it('should create a new community', async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     displayName: 'A community to lovers of tests',
     communityId: 'WeLoveTests',
   };
 
-  const result = await graphql(
+  const result = await graphql({
     schema,
-    mutation,
-    rootValue,
-    getContext({ user }),
-    variables,
-  );
+    source: mutation,
+    contextValue: getContext({ user }),
+    variableValues,
+  });
 
   expect(result.errors).toBeUndefined();
 
+  // TODO: Remove this @ts-ignore fixing the type
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { community } = result?.data?.communityCreate;
 
   expect(community.id).toBeDefined();
-  expect(community.name).toBe(variables.communityId);
-  expect(community.displayName).toBe(variables.displayName);
+  expect(community.name).toBe(variableValues.communityId);
+  expect(community.displayName).toBe(variableValues.displayName);
   expect(community.members.edges).toHaveLength(1);
 
   const membersId = community.members.edges.map(
@@ -83,14 +83,14 @@ it("should not allow create a community if doesn't have authorization header", a
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     displayName: 'A community to lovers of tests',
     communityId: 'WeLoveTests',
   };
 
-  const result = await graphql(schema, mutation, rootValue, {}, variables);
+  const result = await graphql({ schema, source: mutation, variableValues });
+
+  console.log(result);
 
   expect(result?.data?.communityCreate).toBeNull();
 
@@ -115,21 +115,26 @@ it('should not create a duplicate community', async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     displayName: 'A community to lovers of tests',
     communityId: 'WeLoveTests',
   };
 
-  await graphql(schema, mutation, rootValue, { user }, variables);
-  const result = await graphql(
+  const contextValue = getContext({ user });
+
+  await graphql({
     schema,
-    mutation,
-    rootValue,
-    { user },
-    variables,
-  );
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
+
+  const result = await graphql({
+    schema,
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
 
   expect(result?.data?.communityCreate).toBeNull();
 

@@ -41,18 +41,31 @@ it('should exit a community', async () => {
     }
   `;
 
-  const rootValue = {};
-
-  const variables = {
+  const variableValues = {
     communityName: 'WeLoveTests',
   };
 
-  const context = getContext({ user });
+  const contextValue = getContext({ user });
 
-  const result = await graphql(schema, mutation, rootValue, context, variables);
+  const result = await graphql({
+    schema,
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
 
   expect(result.errors).toBeUndefined();
 
+  await graphql({
+    schema,
+    source: mutation,
+    contextValue,
+    variableValues,
+  });
+
+  // TODO: Remove this @ts-ignore fixing the type
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { community } = result?.data?.communityExit;
 
   expect(community.members.edges).toHaveLength(1);
