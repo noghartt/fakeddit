@@ -90,8 +90,6 @@ it("should not allow create a community if doesn't have authorization header", a
 
   const result = await graphql({ schema, source: mutation, variableValues });
 
-  console.log(result);
-
   expect(result?.data?.communityCreate).toBeNull();
 
   expect(result?.errors).toBeDefined();
