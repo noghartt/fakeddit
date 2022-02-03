@@ -16,7 +16,7 @@ export const communityCreate = mutationWithClientMutationId({
     { communityId, ...rest },
     ctx: GraphQLContext,
   ) => {
-    if (!ctx.user) {
+    if (!ctx?.user) {
       throw new Error('You are not logged in. Please, try again!');
     }
 
