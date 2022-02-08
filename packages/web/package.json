@@ -39,7 +39,7 @@
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
     "react-refresh": "^0.11.0",
-    "relay-compiler": "^12.0.0",
+    "relay-compiler": "^13.0.3",
     "relay-compiler-language-typescript": "^15.0.0",
     "relay-config": "^12.0.0",
     "relay-test-utils": "^13.0.1",
