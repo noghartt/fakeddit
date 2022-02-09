@@ -31,7 +31,7 @@
     "@types/relay-runtime": "^12.0.0",
     "@types/relay-test-utils": "^6.0.5",
     "babel-loader": "^8.2.3",
-    "babel-plugin-relay": "^13.0.1",
+    "babel-plugin-relay": "^13.1.0",
     "dotenv": "^14.3.2",
     "dotenv-webpack": "^7.0.3",
     "graphql": "^15.8.0",
