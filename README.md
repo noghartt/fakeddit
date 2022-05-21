@@ -26,9 +26,15 @@ yarn copy-envs
 And fill the environment variables on `@fakeddit/server` and `@fakeddit/web`
 with the values.
 
+#### Install the dependencies
+First of all, install the dependencies.
+```
+yarn install
+```
+
 #### Running server
 
-First of all, generate the `schema.graphql` file running:
+Generate the `schema.graphql` file running:
 
 ```
 yarn workspace @fakeddit/server schema:generate
